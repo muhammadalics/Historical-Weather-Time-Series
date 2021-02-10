@@ -2,6 +2,20 @@
 const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
 
+async function getData(offset){
+    var resp = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?locationcategoryid=CITY&sortfield=name&sortorder=asc&limit=1000&offset=' + offset,
+    {
+        headers:{
+            'token': tok
+        }
+ 
+    }
+    );
+    return await resp.json();
+        
+}
+
+
 /*
 const usefulData = getData('0');
 
@@ -15,48 +29,73 @@ usefulData.then(function(result){
 
 */
 
-var offset = ['0', '1000'];
-var citylist = [];
+//var offset = ['10', '1000'];
+const offset = ['0', '1000'];
+//var citylist = [];
+//var citylist = Array();
 var cityObj = {};
 //This function creates a JS Object for all the cities available in the dataset.
-function populateCityList(){
-
-    offset.forEach(getCities);
-
-    function getCities(offset){
-        const cities = getData(offset);
-        cities.then(function(result){           
-            result.results.forEach(element => {
-                citylist.push(element.name);
-                cityObj[element.name] = element.id;
-                //console.log(element.name)
-            });
-        })
-        
 
 
+// offset.forEach(getCities);
 
+// function getCities(off){
+//     //const cities = getData(offset);
+//     getData(off).then(result=>{           
+//         result.results.forEach(element => {
+//             var namestring = element.name;
+//             //console.log(typeof namestring);
+//             citylist.push(namestring);
+//             //citylist.push(element.name);
+//             cityObj[element.name] = element.id;
+//             console.log(element.name)
+//         });
+//     })
+    
+
+// }
+
+
+
+
+for (const off of offset){
+
+var citylist = Array();
+console.log(off);
+
+
+getData(off).then((result)=>{
+    return result.results
+})   
+.then((result)=>{
+
+    result.forEach(element => {
+    var namestring = element.name;
+    citylist.push(namestring);
+    cityObj[element.name] = element.id;
+    console.log(element.name)
+    });
+    return citylist;
+})
+.then((citylist)=>{
+    console.log('The length of citylist is: ')
+    console.log(citylist.length);
+    var select = document.getElementById("citydropdown"); 
+    for(var i = 1; i < citylist.length; i++) {
+        var opt = citylist[i];
+        var el = document.createElement("option");
+        el.textContent = opt;
+        el.value = opt;
+        select.appendChild(el);
+        //console.log(citylist[i]);
     }
-
-}
-
-populateCityList();
-console.log(cityObj);
-
-async function getData(offset){
-    const resp = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?locationcategoryid=CITY&sortfield=name&sortorder=asc&limit=1000&offset=' + offset,
-    {
-        headers:{
-            'token': tok
-        }
  
-    }
-    );
-    const responseObj = resp.json();
-    return responseObj;
+})
+
 }
 
 
+console.log(citylist);
 
 async function getTempData(){
     //const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=ZIP:28801&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
