@@ -73,7 +73,7 @@ getData(off).then((result)=>{
     var namestring = element.name;
     citylist.push(namestring);
     cityObj[element.name] = element.id;
-    console.log(element.name)
+    //console.log(element.name)
     });
     return citylist;
 })
@@ -222,9 +222,9 @@ function myFunction(){
     const TempandDates2 = getTempData(pickeddate1, pickeddate2, citycode2);
 
     
-    TempandDates.then(function(result){
-        console.log(result.results)
-        console.log(typeof result.results)
+    var td1 = TempandDates.then(function(result){
+        //console.log(result.results)
+        //console.log(typeof result.results)
     
         var Tmax = [];
         var readingDate =[];
@@ -255,11 +255,35 @@ function myFunction(){
     //     });
 
 
-        plotData(Tmax, readingDate, pickedcity, Tmax, readingDate, pickedcity)
+        //plotData(Tmax, readingDate, pickedcity, Tmax, readingDate, pickedcity)
     
+        return [Tmax, readingDate, pickedcity]
+    });
+
+    var td2 = TempandDates2.then(function(result){
+        //console.log(result.results)
+        //console.log(typeof result.results)
+    
+        let Tmax2 = [];
+        let readingDate2 =[];
+    
+        result.results.forEach(element => {
+            if (element.datatype == "TMAX"){
+                Tmax2.push(element.value)
+                readingDate2.push(element.date.slice(0,-9))
+            }
+            
+        });
+        
+        return [Tmax2, readingDate2, pickedcity2]
+    });
+
+    Promise.all([td1, td2]).then(data =>{
+        console.log(typeof data[0][2]);
+
+
+        plotData(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
     })
-
-
 
     
 
