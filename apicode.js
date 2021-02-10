@@ -3,7 +3,7 @@ const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
 
 /*
-const usefulData = getData();
+const usefulData = getData('0');
 
 //https://stackoverflow.com/questions/38884522/why-is-my-asynchronous-function-returning-promise-pending-instead-of-a-val
 usefulData.then(function(result){
@@ -12,4 +12,141 @@ usefulData.then(function(result){
         console.log(element.name)
     });
 })
+
 */
+
+var offset = ['0', '1000'];
+var citylist = [];
+var cityObj = {};
+//This function creates a JS Object for all the cities available in the dataset.
+function populateCityList(){
+
+    offset.forEach(getCities);
+
+    function getCities(offset){
+        const cities = getData(offset);
+        cities.then(function(result){           
+            result.results.forEach(element => {
+                citylist.push(element.name);
+                cityObj[element.name] = element.id;
+                //console.log(element.name)
+            });
+        })
+        
+
+
+
+    }
+
+}
+
+populateCityList();
+console.log(cityObj);
+
+async function getData(offset){
+    const resp = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?locationcategoryid=CITY&sortfield=name&sortorder=asc&limit=1000&offset=' + offset,
+    {
+        headers:{
+            'token': tok
+        }
+ 
+    }
+    );
+    const responseObj = resp.json();
+    return responseObj;
+}
+
+
+
+async function getTempData(){
+    //const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=ZIP:28801&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
+    const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=CITY:NL000012&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
+    
+        
+    {
+        headers:{
+            'token': tok
+        }
+ 
+    }
+    );
+    var responseObj = response.json();   
+    console.log(responseObj);
+    return responseObj;
+}
+
+
+
+/*
+const TempandDates = getTempData();
+
+TempandDates.then(function(result){
+    console.log(result.results)
+    console.log(typeof result.results)
+
+    let Tmax = [];
+    let readingDate =[];
+
+    result.results.forEach(element => {
+        if (element.datatype == "TMAX"){
+            Tmax.push(element.value)
+            readingDate.push(element.date)
+        }
+        
+    });
+
+    console.log(Tmax)
+    console.log(readingDate)
+
+    plotData(Tmax, readingDate)
+
+})
+
+*/
+
+function plotData(temp, dates){
+    var ctx = document.getElementById('chart');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dates, //should be an array
+            datasets: [{
+                label: '# of Votes',
+                data: temp, //should be an array
+                //backgroundColor: [
+                    //'rgba(255, 99, 132, 0.2)',
+                    //'rgba(54, 162, 235, 0.2)',
+                    //'rgba(255, 206, 86, 0.2)',
+                    //'rgba(75, 192, 192, 0.2)',
+                    //'rgba(153, 102, 255, 0.2)',
+                    //'rgba(255, 159, 64, 0.2)'
+                //],
+                //borderColor: [
+                    //'rgba(255, 99, 132, 1)',
+                    //'rgba(54, 162, 235, 1)',
+                    //'rgba(255, 206, 86, 1)',
+                    //'rgba(75, 192, 192, 1)',
+                    //'rgba(153, 102, 255, 1)',
+                    //'rgba(255, 159, 64, 1)'
+                //],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+
+
+
+
+
+}
+
+
