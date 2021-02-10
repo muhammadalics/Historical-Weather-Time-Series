@@ -103,10 +103,27 @@ getData(off).then((result)=>{
 
 console.log(citylist);
 
+/*
 async function getTempData(){
     //const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=ZIP:28801&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
+    //const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=CITY:NL000012&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
     const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=CITY:NL000012&startdate=2010-05-01&enddate=2010-05-10&units=metric&limit=1000',
-    
+        
+    {
+        headers:{
+            'token': tok
+        }
+ 
+    }
+    );
+    var responseObj = response.json();   
+    console.log(responseObj);
+    return responseObj;
+}
+*/
+
+async function getTempData(startdate, enddate, citycode){
+    const response = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/data?datasetid=GHCND&locationid=' + citycode + '&startdate=' + startdate + '&enddate=' + enddate + '&units=metric&limit=1000',
         
     {
         headers:{
@@ -122,32 +139,9 @@ async function getTempData(){
 
 
 
-/*
-const TempandDates = getTempData();
 
-TempandDates.then(function(result){
-    console.log(result.results)
-    console.log(typeof result.results)
 
-    let Tmax = [];
-    let readingDate =[];
 
-    result.results.forEach(element => {
-        if (element.datatype == "TMAX"){
-            Tmax.push(element.value)
-            readingDate.push(element.date)
-        }
-        
-    });
-
-    console.log(Tmax)
-    console.log(readingDate)
-
-    plotData(Tmax, readingDate)
-
-})
-
-*/
 
 function plotData(temp, dates){
     var ctx = document.getElementById('chart');
@@ -194,15 +188,41 @@ function plotData(temp, dates){
 
 }
 
+function getCityCode(cityname){
+    return cityObj[cityname];
+}
+
 
 
 function myFunction(){
     const pickeddate1 = document.getElementById("basicDate").value;
     const pickeddate2 = document.getElementById("basicDate2").value;
     const pickedcity = document.getElementById("citydropdown").value;
-        
-    alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity);
+    var citycode = getCityCode(pickedcity); 
+    alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity + '. The city code is ' + citycode);
 
+    const TempandDates = getTempData(pickeddate1, pickeddate2, citycode);
+    TempandDates.then(function(result){
+        console.log(result.results)
+        console.log(typeof result.results)
+    
+        let Tmax = [];
+        let readingDate =[];
+    
+        result.results.forEach(element => {
+            if (element.datatype == "TMAX"){
+                Tmax.push(element.value)
+                readingDate.push(element.date)
+            }
+            
+        });
+    
+        console.log(Tmax)
+        console.log(readingDate)
+    
+        plotData(Tmax, readingDate)
+    
+    })
 
 
 }
