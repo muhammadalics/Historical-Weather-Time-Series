@@ -6,6 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!--for date picker -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> <!--for date picker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><!--jQuery -->
+
+    <!--  Flatpicker Styles  -->    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/themes/dark.css">
+
+
 </head>
 <body>
     <p id="sometxt">a</p>
@@ -14,16 +23,30 @@
         
 
     </select>
-
+    <input type="text" id="basicDate" placeholder="Please select Date Time" data-input>
 
     <script src="apicode.js"></script>
 
-
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    (html comment removed:   Flatpickr  )
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
+    <script>
+  $("#basicDate").flatpickr({
+      enableTime: false,
+      dateFormat: "F, d Y H:i"
+  });
+    </script>
+    
     
     <canvas id="chart" width="300" height="400"></canvas>
 
 
+
+
+  <!-- jQuery -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!--  Flatpickr  -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 
 </body>
 </html>
