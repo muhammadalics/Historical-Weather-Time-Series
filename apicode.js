@@ -56,11 +56,11 @@ var cityObj = {};
 // }
 
 
-
+var citylist = Array();
 
 for (const off of offset){
 
-var citylist = Array();
+
 console.log(off);
 
 
@@ -80,6 +80,11 @@ getData(off).then((result)=>{
 .then((citylist)=>{
     console.log('The length of citylist is: ')
     console.log(citylist.length);
+    
+    if (off != '0'){ //so that cities are listed single time in drop down menu.
+
+    
+    
     var select = document.getElementById("citydropdown"); 
     for(var i = 1; i < citylist.length; i++) {
         var opt = citylist[i];
@@ -89,7 +94,8 @@ getData(off).then((result)=>{
         select.appendChild(el);
         //console.log(citylist[i]);
     }
- 
+    }
+
 })
 
 }
