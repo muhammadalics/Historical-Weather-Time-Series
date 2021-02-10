@@ -86,14 +86,25 @@ getData(off).then((result)=>{
     
     
     var select = document.getElementById("citydropdown"); 
+    var select2 = document.getElementById("citydropdown2"); 
+
     for(var i = 1; i < citylist.length; i++) {
         var opt = citylist[i];
         var el = document.createElement("option");
         el.textContent = opt;
-        el.value = opt;
+        el.value = opt;       
         select.appendChild(el);
-        //console.log(citylist[i]);
+
+        var el2 = document.createElement("option");
+        el2.textContent = opt;
+        el2.value = opt;       
+        select2.appendChild(el2);
+
+
+
+
     }
+
     }
 
 })
@@ -143,37 +154,39 @@ async function getTempData(startdate, enddate, citycode){
 
 
 
-function plotData(temp, dates){
+function plotData(temp, dates, cityname, temp2, dates2, cityname2){
+    
     var ctx = document.getElementById('chart');
     var myChart = new Chart(ctx, {
         type: 'line',
         data: {
             labels: dates, //should be an array
             datasets: [{
-                label: '# of Votes',
+                label: cityname,
+                fill: false,
+                //borderWidth: 2,
                 data: temp, //should be an array
-                //backgroundColor: [
-                    //'rgba(255, 99, 132, 0.2)',
-                    //'rgba(54, 162, 235, 0.2)',
-                    //'rgba(255, 206, 86, 0.2)',
-                    //'rgba(75, 192, 192, 0.2)',
-                    //'rgba(153, 102, 255, 0.2)',
-                    //'rgba(255, 159, 64, 0.2)'
-                //],
-                //borderColor: [
-                    //'rgba(255, 99, 132, 1)',
-                    //'rgba(54, 162, 235, 1)',
-                    //'rgba(255, 206, 86, 1)',
-                    //'rgba(75, 192, 192, 1)',
-                    //'rgba(153, 102, 255, 1)',
-                    //'rgba(255, 159, 64, 1)'
-                //],
-                borderWidth: 1
-            }]
+                borderWidth: 3
+            },
+            {
+                label: cityname2,
+                fill: false,
+                //borderWidth: 2,
+                data: temp2, //should be an array
+                borderWidth: 3
+            }
+               
+        
+        ]
         },
         options: {
+            responsive: false,           
             scales: {
                 yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: 'Daily High Temperature, degree C'
+                    },
                     ticks: {
                         beginAtZero: true
                     }
@@ -182,7 +195,7 @@ function plotData(temp, dates){
         }
     });
 
-
+    //Chart.defaults.line.fill = false;
 
 
 
@@ -198,31 +211,57 @@ function myFunction(){
     const pickeddate1 = document.getElementById("basicDate").value;
     const pickeddate2 = document.getElementById("basicDate2").value;
     const pickedcity = document.getElementById("citydropdown").value;
-    var citycode = getCityCode(pickedcity); 
+    const pickedcity2 = document.getElementById("citydropdown2").value;
+    
+    var citycode = getCityCode(pickedcity);
+    var citycode2 = getCityCode(pickedcity2);
+
     alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity + '. The city code is ' + citycode);
 
     const TempandDates = getTempData(pickeddate1, pickeddate2, citycode);
+    const TempandDates2 = getTempData(pickeddate1, pickeddate2, citycode2);
+
+    
     TempandDates.then(function(result){
         console.log(result.results)
         console.log(typeof result.results)
     
-        let Tmax = [];
-        let readingDate =[];
+        var Tmax = [];
+        var readingDate =[];
     
         result.results.forEach(element => {
             if (element.datatype == "TMAX"){
                 Tmax.push(element.value)
-                readingDate.push(element.date)
+                readingDate.push(element.date.slice(0,-9))
             }
             
         });
     
-        console.log(Tmax)
-        console.log(readingDate)
+
+
+    // TempandDates2.then(function(result){
+    //     console.log(result.results)
+    //     console.log(typeof result.results)
     
-        plotData(Tmax, readingDate)
+    //     let Tmax2 = [];
+    //     let readingDate2 =[];
+    
+    //     result.results.forEach(element => {
+    //         if (element.datatype == "TMAX"){
+    //             Tmax2.push(element.value)
+    //             readingDate2.push(element.date.slice(0,-9))
+    //         }
+            
+    //     });
+
+
+        plotData(Tmax, readingDate, pickedcity, Tmax, readingDate, pickedcity)
     
     })
 
 
+
+    
+
 }
+
