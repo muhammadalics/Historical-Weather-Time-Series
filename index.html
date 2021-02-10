@@ -17,36 +17,38 @@
 
 </head>
 <body>
+    <h1>The Weather Comparator</h1>
     <p id="sometxt">a</p>
     
-    <select id="citydropdown" name="Choose a City" style="width: 500px;">
-        
-
-    </select>
+    <select id="citydropdown" name="Choose a City" style="width: 500px;"></select>
+    <br>
     <input type="text" id="basicDate" placeholder="Please select Date Time" data-input>
-
+    <br>
+    <input type="text" id="basicDate2" placeholder="Please select Date Time" data-input>
+    <br>
     <script src="apicode.js"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    (html comment removed:   Flatpickr  )
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
+    
     <script>
-  $("#basicDate").flatpickr({
-      enableTime: false,
-      dateFormat: "F, d Y H:i"
-  });
+        $("#basicDate").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d"
+        });
+
+        $("#basicDate2").flatpickr({
+        enableTime: false,
+        dateFormat: "Y-m-d"
+        });
+
     </script>
     
+    <button onclick="myFunction()">Plot Temperatures!</button>
     
     <canvas id="chart" width="300" height="400"></canvas>
 
 
-
-
-  <!-- jQuery -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <!--  Flatpickr  -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.js"></script>
 
 </body>
 </html>

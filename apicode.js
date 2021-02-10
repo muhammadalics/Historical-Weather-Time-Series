@@ -196,3 +196,13 @@ function plotData(temp, dates){
 
 
 
+function myFunction(){
+    const pickeddate1 = document.getElementById("basicDate").value;
+    const pickeddate2 = document.getElementById("basicDate2").value;
+    const pickedcity = document.getElementById("citydropdown").value;
+        
+    alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity);
+
+
+
+}
