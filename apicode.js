@@ -1,3 +1,4 @@
+// var myChart;
 //This is the token for communicating with NOAA API
 const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
@@ -155,24 +156,51 @@ async function getTempData(startdate, enddate, citycode){
 
 
 function plotData(temp, dates, cityname, temp2, dates2, cityname2){
+    // if (myChart) { //destroy the chart before making a new chart
+    //     myChart.data.labels.pop();
+    //     myChart.data.datasets.forEach((dataset) => {
+    //         dataset.data.pop();
+    //     });
+    //     myChart.update();
+    //   }
+    if (typeof myChart !== 'undefined'){
+        myChart.destroy();
+    }
     
-    var ctx = document.getElementById('chart');
+    //prepping data for scatter chart
+    scatter_dataset1 = [];
+    scatter_dataset2 = [];
+    for (let i=0; i < dates.length; i++){
+        scatter_dataset1.push({x:dates[i], y:temp[i]})
+        scatter_dataset2.push({x:dates2[i], y:temp2[i]})
+    }
+    
+    if (dates.length > dates2.length){
+        var datescat = dates;
+    }
+    else{
+        var datescat = dates2;
+    }
+    
+    console.log(scatter_dataset1);
+
+    var ctx = document.getElementById('chart').getContext("2d");
     var myChart = new Chart(ctx, {
-        type: 'line',
+        type: 'scatter',
         data: {
-            labels: dates, //should be an array
+            //labels: dates, //should be an array
             datasets: [{
                 label: cityname,
                 fill: false,
                 //borderWidth: 2,
-                data: temp, //should be an array
+                data: scatter_dataset1, //should be an array
                 borderWidth: 3
             },
             {
                 label: cityname2,
                 fill: false,
-                //borderWidth: 2,
-                data: temp2, //should be an array
+                borderColor: 'rgba(255, 99, 132, 1)',
+                data: scatter_dataset2, //should be an array
                 borderWidth: 3
             }
                
@@ -190,6 +218,10 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
                     ticks: {
                         beginAtZero: true
                     }
+                }],
+                xAxes: [{
+                    type:'category',
+                    labels: datescat
                 }]
             }
         }
@@ -197,7 +229,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
 
     //Chart.defaults.line.fill = false;
 
-
+    myChart.update();
 
 }
 
@@ -208,6 +240,10 @@ function getCityCode(cityname){
 
 
 function myFunction(){
+    // if (myChart != undefined) { //destroy the chart before making a new chart
+    //     myChart.destroy();
+    //   }
+
     const pickeddate1 = document.getElementById("basicDate").value;
     const pickeddate2 = document.getElementById("basicDate2").value;
     const pickedcity = document.getElementById("citydropdown").value;
@@ -223,16 +259,19 @@ function myFunction(){
 
     
     var td1 = TempandDates.then(function(result){
-        //console.log(result.results)
+        console.log(result.results)
         //console.log(typeof result.results)
     
         var Tmax = [];
         var readingDate =[];
-    
+        
+        let previous_date = ""; //This is to make sure that only one measurement from a date is picked. Dataset has multiple readings from different stations for single days for many cities.
+
         result.results.forEach(element => {
-            if (element.datatype == "TMAX"){
+            if (element.datatype == "TMAX" && element.date !== previous_date){
                 Tmax.push(element.value)
                 readingDate.push(element.date.slice(0,-9))
+                previous_date = element.date;
             }
             
         });
@@ -261,16 +300,21 @@ function myFunction(){
     });
 
     var td2 = TempandDates2.then(function(result){
+        
+        
         //console.log(result.results)
         //console.log(typeof result.results)
     
         let Tmax2 = [];
         let readingDate2 =[];
     
+        let previous_date = ""; //This is to make sure that only one measurement from a date is picked. Dataset has multiple readings from different stations for single days for many cities.
+
         result.results.forEach(element => {
-            if (element.datatype == "TMAX"){
+            if (element.datatype == "TMAX" && element.date !== previous_date){
                 Tmax2.push(element.value)
                 readingDate2.push(element.date.slice(0,-9))
+                previous_date = element.date;
             }
             
         });
@@ -281,6 +325,14 @@ function myFunction(){
     Promise.all([td1, td2]).then(data =>{
         console.log(typeof data[0][2]);
 
+        console.log('First City: ')
+        console.log(data[0][0]);
+        console.log(data[0][1]);
+
+        console.log('Second City: ')
+        console.log(data[1][0]);
+        console.log(data[1][1]);
+
 
         plotData(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
     })
@@ -289,3 +341,8 @@ function myFunction(){
 
 }
 
+
+// document.getElementById("plotbutton").addEventListener("click", function() {
+//     //document.getElementById("demo").innerHTML = "Hello World";
+//     myChart.destroy();
+//   });
