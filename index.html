@@ -14,19 +14,53 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/flatpickr.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.2.3/themes/dark.css">
 
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
 
 </head>
 <body>
-    <h1>The Weather Comparator</h1>
-    <p id="sometxt">a</p>
+    <div class="container p-3 my-3 bg-dark text-white">
+        <h1>The Weather Comparator</h1>
+    </div>
     
-    <select id="citydropdown" name="Choose a City" style="width: 200px;"></select>
-    <br>
-    <select id="citydropdown2" name="Choose a City" style="width: 200px;"></select>
-    <br>
-    <input type="text" id="basicDate" placeholder="Please select Date Time" data-input>
-    <br>
-    <input type="text" id="basicDate2" placeholder="Please select Date Time" data-input>
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="container p-3 my-3 bg-light text-white">
+            <p class="text-dark">Choose two cities:</p>
+            
+            <select id="citydropdown" ata-toggle="tooltip" title="Choose a city" name="Choose a City" style="width: 200px;"></select>
+            <br>           
+            <select id="citydropdown2" ata-toggle="tooltip" title="Choose a city" name="Choose a City" style="width: 200px;"></select>
+            <br><br><br>
+            <p class="text-dark">Start date:</p>
+            <input type="text" ata-toggle="tooltip" title="Select the starting date of the date range" id="basicDate" placeholder="Please select Date Time" data-input>
+            <br><br>
+            <p class="text-dark">End date:</p>
+            <input type="text" ata-toggle="tooltip" title="Select the ending date of the date range" id="basicDate2" placeholder="Please select Date Time" data-input>
+            <br><br>
+            <!-- <button id="plotbutton" onclick="myFunction()">Plot Temperatures!</button> -->
+            <button type="button" class="btn btn-dark" id="plotbutton" onclick="myFunction()">Plot Temperatures!</button>
+            </div>
+            
+        </div>
+        <div class="col-sm-8">
+            <div class="container p-3 my-3 bg-light text-white">
+            <canvas id="chart" width="700" height="600" aria-label="Chart" role="img"></canvas>
+            </div>
+        </div>
+      </div>
+    
     <br>
     <script src="apicode.js"></script>
 
@@ -46,11 +80,6 @@
 
     </script>
     
-    <button onclick="myFunction()">Plot Temperatures!</button>
-    
-    <canvas id="chart" width="700" height="600" aria-label="Chart" role="img"></canvas>
-
-
 
 </body>
 </html>
