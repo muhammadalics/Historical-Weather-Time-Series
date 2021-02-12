@@ -30,12 +30,14 @@
 
 </head>
 <body>
-    <div class="container p-3 my-3 bg-dark text-white">
-        <h1>The Weather Comparator</h1>
-    </div>
-    
     <div class="row">
-        <div class="col-sm-4">
+    <div class="container-fluid p-3 my-3 bg-dark text-white">
+        <h1>Historical Weather Time-series</h1>
+    </div>
+    </div>
+    <div class="row">
+    
+        <div class="col-sm-3">
             <div class="container p-3 my-3 bg-light text-white">
             <p class="text-dark">Choose two cities:</p>
             
@@ -44,22 +46,23 @@
             <select id="citydropdown2" ata-toggle="tooltip" title="Choose a city" name="Choose a City" style="width: 200px;"></select>
             <br><br><br>
             <p class="text-dark">Start date:</p>
-            <input type="text" ata-toggle="tooltip" title="Select the starting date of the date range" id="basicDate" placeholder="Please select Date Time" data-input>
+            <input type="text" ata-toggle="tooltip" title="Select the starting date of the date range" id="basicDate" placeholder="Please select Start Date " data-input>
             <br><br>
             <p class="text-dark">End date:</p>
-            <input type="text" ata-toggle="tooltip" title="Select the ending date of the date range" id="basicDate2" placeholder="Please select Date Time" data-input>
+            <input type="text" ata-toggle="tooltip" title="Select the ending date of the date range" id="basicDate2" placeholder="Please select End Date" data-input>
             <br><br>
             <!-- <button id="plotbutton" onclick="myFunction()">Plot Temperatures!</button> -->
             <button type="button" class="btn btn-dark" id="plotbutton" onclick="myFunction()">Plot Temperatures!</button>
+            <br><br><br><br><br><br><br><br><br><br> <br>
             </div>
-            
         </div>
+        
         <div class="col-sm-8">
             <div class="container p-3 my-3 bg-light text-white">
             <canvas id="chart" width="700" height="600" aria-label="Chart" role="img"></canvas>
             </div>
         </div>
-      </div>
+    </div>
     
     <br>
     <script src="apicode.js"></script>
