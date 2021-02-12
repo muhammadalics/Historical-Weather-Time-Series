@@ -237,7 +237,53 @@ function getCityCode(cityname){
     return cityObj[cityname];
 }
 
+function calculateAndPrintStats(weatherparam1, dates1, cityname1, weatherparam2, dates2, cityname2){
 
+    //Calculate min, max, date of min and max, range, mean
+    var sum1 = weatherparam1.reduce((sum, num) => sum + num);
+    var sum2 = weatherparam2.reduce((sum, num) => sum + num);
+
+    // Mean of the weather parameter over the range
+    var mean1 = sum1/weatherparam1.length;
+    var mean2 = sum2/weatherparam2.length;
+
+    // Maximum of the weather parameter over the range
+    var max_val1 = weatherparam1.reduce((a, b) => Math.max(a,b));
+    var max_val2 = weatherparam2.reduce((a, b) => Math.max(a,b));
+
+    // Dates when maximum value of parameter occurred for the two cities
+    var dateofmax1 = dates1[weatherparam1.indexOf(max_val1)];
+    var dateofmax2 = dates2[weatherparam2.indexOf(max_val2)];
+
+    // Mainimum of the weather parameter over the range
+    var min_val1 = weatherparam1.reduce((a, b) => Math.min(a,b));
+    var min_val2 = weatherparam2.reduce((a, b) => Math.min(a,b));
+
+    // Dates when min value of parameter occurred for the two cities
+    var dateofmin1 = dates1[weatherparam1.indexOf(min_val1)];
+    var dateofmin2 = dates2[weatherparam2.indexOf(min_val2)];
+
+    // Range of the values:
+    var range_val1 = max_val1 - min_val1;
+    var range_val2 = max_val2 - min_val2;
+
+    // Setting stats for City 1
+    document.getElementById("cityname1").innerHTML = cityname1;
+    document.getElementById("meanval1").innerHTML = "Mean: " + mean1.toFixed(1);
+    document.getElementById("rangeval1").innerHTML = "Range (max - min): " + range_val1.toFixed(1);
+    document.getElementById("maxval1").innerHTML = "Max: " + max_val1 + " on " + dateofmax1;
+    document.getElementById("minval1").innerHTML = "Min: " + min_val1 + " on " + dateofmin1;
+
+    // Setting stats for City 2
+    document.getElementById("cityname2").innerHTML = cityname2;
+    document.getElementById("meanval2").innerHTML = "Mean: " + mean2.toFixed(1);
+    document.getElementById("rangeval2").innerHTML = "Range (max - min): " + range_val2.toFixed(1);
+    document.getElementById("maxval2").innerHTML = "Max: " + max_val2 + " on " + dateofmax2;
+    document.getElementById("minval2").innerHTML = "Min: " + min_val2 + " on " + dateofmin2;
+
+
+
+}
 
 function myFunction(){
     // if (myChart != undefined) { //destroy the chart before making a new chart
@@ -335,6 +381,7 @@ function myFunction(){
 
 
         plotData(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
+        calculateAndPrintStats(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
     })
 
     
