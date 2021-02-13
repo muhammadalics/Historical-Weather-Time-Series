@@ -334,7 +334,7 @@ function myFunction(){
     var citycode = getCityCode(pickedcity);
     var citycode2 = getCityCode(pickedcity2);
 
-    alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity + '. The city code is ' + citycode);
+    // alert('You picked the date range : ' + pickeddate1 + ' to ' + pickeddate2 + ' and you picked the city:' + pickedcity + '. The city code is ' + citycode);
 
     const TempandDates = getTempData(pickeddate1, pickeddate2, citycode);
     const TempandDates2 = getTempData(pickeddate1, pickeddate2, citycode2);

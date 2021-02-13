@@ -1,0 +1,38 @@
+p {
+    margin-top: 0.25em ;
+    margin-bottom: 0.25em ;
+} 
+.fa {
+padding: 9px;
+font-size: 30px;
+width: 50px;
+text-align: center;
+text-decoration: none;
+margin: 5px 5px;
+}
+
+/* Facebook */
+.fa-facebook {
+background: #3B5998;
+color: white;
+}
+
+/* Twitter */
+.fa-twitter {
+background: #55ACEE;
+color: white;
+}
+
+.fa-linkedin {
+background: #007bb5;
+color: white;
+}
+
+.fa-reddit {
+background: #ff5700;
+color: white;
+}
+
+.no-bullets {
+list-style-type: none;
+}
