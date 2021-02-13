@@ -2,6 +2,25 @@
 //This is the token for communicating with NOAA API
 const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
+//This fucntion just sets the parameter that needs to be looked up.
+function setParam(paramtext){
+    switch(paramtext){
+        case 'tmax':
+            var chosenparam = "TMAX";
+            break;
+        case 'tmin':
+            var chosenparam = "TMIN";
+            break;
+        case 'prcp':
+            var chosenparam = "PRCP";
+            break;
+        case 'snow':
+            var chosenparam = "SNOW";
+            break;
+    }
+console.log(chosenparam);
+}
+
 
 async function getData(offset){
     var resp = await fetch('https://www.ncdc.noaa.gov/cdo-web/api/v2/locations?locationcategoryid=CITY&sortfield=name&sortorder=asc&limit=1000&offset=' + offset,
@@ -185,6 +204,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
     console.log(scatter_dataset1);
 
     var ctx = document.getElementById('chart').getContext("2d");
+    Chart.defaults.global.defaultFontSize = 16;
     var myChart = new Chart(ctx, {
         type: 'scatter',
         data: {
@@ -208,7 +228,8 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
         ]
         },
         options: {
-            responsive: false,           
+            maintainAspectRatio: true,
+            responsive: true,           
             scales: {
                 yAxes: [{
                     scaleLabel: {
@@ -229,7 +250,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
 
     //Chart.defaults.line.fill = false;
 
-    myChart.update();
+    //myChart.update();
 
 }
 
@@ -290,6 +311,7 @@ function myFunction(){
     //     myChart.destroy();
     //   }
 
+    const paramddtxt = document.getElementById("wparamdd").value;
     const pickeddate1 = document.getElementById("basicDate").value;
     const pickeddate2 = document.getElementById("basicDate2").value;
     const pickedcity = document.getElementById("citydropdown").value;
@@ -303,6 +325,9 @@ function myFunction(){
     const TempandDates = getTempData(pickeddate1, pickeddate2, citycode);
     const TempandDates2 = getTempData(pickeddate1, pickeddate2, citycode2);
 
+    console.log(paramddtxt);
+    setParam(paramddtxt);
+    // var chosenparam = document.getElementById("wparamdd").value;
     
     var td1 = TempandDates.then(function(result){
         console.log(result.results)
@@ -310,11 +335,12 @@ function myFunction(){
     
         var Tmax = [];
         var readingDate =[];
-        
+        var chosenparam = document.getElementById("wparamdd").value;
+
         let previous_date = ""; //This is to make sure that only one measurement from a date is picked. Dataset has multiple readings from different stations for single days for many cities.
 
         result.results.forEach(element => {
-            if (element.datatype == "TMAX" && element.date !== previous_date){
+            if (element.datatype == chosenparam && element.date !== previous_date){
                 Tmax.push(element.value)
                 readingDate.push(element.date.slice(0,-9))
                 previous_date = element.date;
@@ -353,11 +379,12 @@ function myFunction(){
     
         let Tmax2 = [];
         let readingDate2 =[];
+        var chosenparam = document.getElementById("wparamdd").value;
     
         let previous_date = ""; //This is to make sure that only one measurement from a date is picked. Dataset has multiple readings from different stations for single days for many cities.
 
         result.results.forEach(element => {
-            if (element.datatype == "TMAX" && element.date !== previous_date){
+            if (element.datatype == chosenparam && element.date !== previous_date){
                 Tmax2.push(element.value)
                 readingDate2.push(element.date.slice(0,-9))
                 previous_date = element.date;
