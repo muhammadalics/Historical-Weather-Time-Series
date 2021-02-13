@@ -1,5 +1,5 @@
-// var myChart;
-var unitname = "sdgsdfsdflkhndsflhlskefhnlksdhflsd"
+// // var myChart;
+// var unitname = "sdgsdfsdflkhndsflhlskefhnlksdhflsd"
 //This is the token for communicating with NOAA API
 const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
@@ -184,10 +184,14 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2, unit_param_na
     //     myChart.update();
     //   }
     //console.log(unitname);
-    if (typeof myChart !== 'undefined'){
-        myChart.destroy();
-    }
-    
+    //var myChart;
+
+    // if (typeof myChart !== 'undefined' && myChart == null){
+
+    //     myChart.destroy();
+    // }
+
+
     //prepping data for scatter chart
     scatter_dataset1 = [];
     scatter_dataset2 = [];
@@ -214,6 +218,8 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2, unit_param_na
             datasets: [{
                 label: cityname,
                 fill: false,
+                borderColor: "#3cba9f",
+                showLine: true,
                 //borderWidth: 2,
                 data: scatter_dataset1, //should be an array
                 borderWidth: 3
@@ -222,6 +228,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2, unit_param_na
                 label: cityname2,
                 fill: false,
                 borderColor: 'rgba(255, 99, 132, 1)',
+                showLine: true,
                 data: scatter_dataset2, //should be an array
                 borderWidth: 3
             }
