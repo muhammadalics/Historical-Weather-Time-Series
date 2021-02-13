@@ -1,4 +1,5 @@
 // var myChart;
+var unitname = "sdgsdfsdflkhndsflhlskefhnlksdhflsd"
 //This is the token for communicating with NOAA API
 const tok = 'zaZbfcdivRFqAGBAcmbrxYyeaDmRwbRy';
 
@@ -174,7 +175,7 @@ async function getTempData(startdate, enddate, citycode){
 
 
 
-function plotData(temp, dates, cityname, temp2, dates2, cityname2){
+function plotData(temp, dates, cityname, temp2, dates2, cityname2, unit_param_name){
     // if (myChart) { //destroy the chart before making a new chart
     //     myChart.data.labels.pop();
     //     myChart.data.datasets.forEach((dataset) => {
@@ -182,6 +183,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
     //     });
     //     myChart.update();
     //   }
+    //console.log(unitname);
     if (typeof myChart !== 'undefined'){
         myChart.destroy();
     }
@@ -234,7 +236,7 @@ function plotData(temp, dates, cityname, temp2, dates2, cityname2){
                 yAxes: [{
                     scaleLabel: {
                         display: true,
-                        labelString: 'Daily High Temperature, degree C'
+                        labelString: unit_param_name[1] + ", " + unit_param_name[0]
                     },
                     ticks: {
                         beginAtZero: true
@@ -258,7 +260,7 @@ function getCityCode(cityname){
     return cityObj[cityname];
 }
 
-function calculateAndPrintStats(weatherparam1, dates1, cityname1, weatherparam2, dates2, cityname2){
+function calculateAndPrintStats(weatherparam1, dates1, cityname1, weatherparam2, dates2, cityname2, unit_param_name){
 
     //Calculate min, max, date of min and max, range, mean
     var sum1 = weatherparam1.reduce((sum, num) => sum + num);
@@ -290,18 +292,23 @@ function calculateAndPrintStats(weatherparam1, dates1, cityname1, weatherparam2,
 
     // Setting stats for City 1
     document.getElementById("cityname1").innerHTML = cityname1;
-    document.getElementById("meanval1").innerHTML = "Mean: " + mean1.toFixed(1);
-    document.getElementById("rangeval1").innerHTML = "Range (max - min): " + range_val1.toFixed(1);
-    document.getElementById("maxval1").innerHTML = "Max: " + max_val1 + " on " + dateofmax1;
-    document.getElementById("minval1").innerHTML = "Min: " + min_val1 + " on " + dateofmin1;
+    document.getElementById("meanval1").innerHTML = "Mean: " + mean1.toFixed(1) + " " + unit_param_name[0];
+    document.getElementById("rangeval1").innerHTML = "Range (max - min): " + range_val1.toFixed(1) + " " + unit_param_name[0];
+    document.getElementById("maxval1").innerHTML = "Max: " + max_val1  + " " + unit_param_name[0] + " on " + dateofmax1;
+    document.getElementById("minval1").innerHTML = "Min: " + min_val1 + " " + unit_param_name[0] + " on " + dateofmin1;
 
     // Setting stats for City 2
     document.getElementById("cityname2").innerHTML = cityname2;
-    document.getElementById("meanval2").innerHTML = "Mean: " + mean2.toFixed(1);
-    document.getElementById("rangeval2").innerHTML = "Range (max - min): " + range_val2.toFixed(1);
-    document.getElementById("maxval2").innerHTML = "Max: " + max_val2 + " on " + dateofmax2;
-    document.getElementById("minval2").innerHTML = "Min: " + min_val2 + " on " + dateofmin2;
+    document.getElementById("meanval2").innerHTML = "Mean: " + mean2.toFixed(1) + " " + unit_param_name[0];
+    document.getElementById("rangeval2").innerHTML = "Range (max - min): " + range_val2.toFixed(1) + " " + unit_param_name[0];
+    document.getElementById("maxval2").innerHTML = "Max: " + max_val2  + " " + unit_param_name[0] + " on " + dateofmax2;
+    document.getElementById("minval2").innerHTML = "Min: " + min_val2  + " " + unit_param_name[0] + " on " + dateofmin2;
 
+    // Resetting the tags so that bullet points appear in the lists.
+    document.getElementById('list1').className = '';
+    document.getElementById('list2').className = '';
+    //console.log("Now printing: ")
+    //console.log(chosenparam);
 
 
 }
@@ -406,12 +413,44 @@ function myFunction(){
         console.log(data[1][0]);
         console.log(data[1][1]);
 
+        //var chosenparam = document.getElementById("wparamdd").value;
+        var unit_param_name  = getNameAndUnit(); //The array holds unit at index 0 and then parameter name on index 1.
+        
 
-        plotData(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
-        calculateAndPrintStats(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2]);
+        // var unitname;
+        // if (chosenparam == "TMAX" || chosenparam == "TMIN"){
+        //     unitname = <span>&#176;</span> + "C";
+        // }
+        // else{
+        //     unitname = "mm";
+        // }
+
+
+        plotData(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2], unit_param_name);
+        calculateAndPrintStats(data[0][0], data[0][1], data[0][2], data[1][0], data[1][1], data[1][2], unit_param_name);
     })
 
     
+
+}
+
+
+function getNameAndUnit(){
+    let paramval = document.getElementById("wparamdd").value;
+
+    if (paramval == "TMAX"){
+        return ["\u00B0" + "C", "Daily High Temperature"];
+    }
+    if (paramval == "TMIN"){
+        return ["\u00B0" + "C", "Daily Low Temperature"];
+    }
+    if (paramval == "PRCP"){
+        return ["mm", "Precipitation"];
+    }
+    if (paramval == "SNOW"){
+        return ["mm", "Snow"];
+    }
+
 
 }
 

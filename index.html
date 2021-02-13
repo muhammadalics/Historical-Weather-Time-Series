@@ -27,12 +27,58 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style type="text/css">
+    p {
+        margin-top: 0.25em ;
+        margin-bottom: 0.25em ;
+    } 
+    .fa {
+    padding: 9px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    margin: 5px 5px;
+    }
+
+    /* Facebook */
+    .fa-facebook {
+    background: #3B5998;
+    color: white;
+    }
+
+    /* Twitter */
+    .fa-twitter {
+    background: #55ACEE;
+    color: white;
+    }
+
+    .fa-linkedin {
+    background: #007bb5;
+    color: white;
+    }
+
+    .fa-reddit {
+    background: #ff5700;
+    color: white;
+    }
+
+    .no-bullets {
+    list-style-type: none;
+    }
+
+    </style>
+    
 
 </head>
 <body>
+
     <div class="row">
     <div class="container-fluid p-3 my-3 bg-dark text-white">
-        <h1>Historical Weather Time-series</h1>
+        <h1>Historical Weather Time Series</h1>
+        <p>Compare weather parameters of different cities. The weather data displayed on this page was made available by NOAA's National Centers for Environmental Information <a href="https://www.ncei.noaa.gov/">(NCEI)</a>.</p>
     </div>
     </div>
     <div class="row">
@@ -40,8 +86,8 @@
         <div class="col-sm-3">
             <div class="container p-3 my-3 bg-light text-white">
 
-            <p class="text-dark">Choose weather parameter:</p>
-            Choose weather parameter           
+            <p margin:0 class="text-dark">Choose weather parameter:</p>
+                    
             <select id="wparamdd" ata-toggle="tooltip" title="Choose a weather parameter" name="Choose a weather parameter" style="width: 200px;">
                 <option value="TMAX">Daily High Temperature</option>
                 <option value="TMIN">Daily Low Temperature</option>
@@ -57,11 +103,11 @@
             <br>           
             <select id="citydropdown2" ata-toggle="tooltip" title="Choose a city" name="Choose a City" style="width: 200px;"></select>
             <br><br><br>
-            <p class="text-dark">Start date:</p>
-            <input type="text" ata-toggle="tooltip" title="Select the starting date of the date range" id="basicDate" placeholder="Please select Start Date " data-input>
+            <p class="text-dark">Start date (YYYY/MM/DD):</p>
+            <input type="text" ata-toggle="tooltip" title="Select the starting date of the date range" id="basicDate" placeholder="Please select Start Date" data-input style="width: 200px;">
             <br><br>
-            <p class="text-dark">End date:</p>
-            <input type="text" ata-toggle="tooltip" title="Select the ending date of the date range" id="basicDate2" placeholder="Please select End Date" data-input>
+            <p class="text-dark">End date (YYYY/MM/DD):</p>
+            <input type="text" ata-toggle="tooltip" title="Select the ending date of the date range" id="basicDate2" placeholder="Please select End Date" data-input style="width: 200px;">
             <br><br>
             <!-- <button id="plotbutton" onclick="myFunction()">Plot Temperatures!</button> -->
             <button type="button" class="btn btn-dark" id="plotbutton" onclick="myFunction()">Plot</button>
@@ -80,7 +126,7 @@
             <h5>Statistics</h5>
             <br><br>
             <h6 id="cityname1"></h6>
-            <ul class="no-bullets">
+            <ul id="list1" class="no-bullets">
                 <li id="maxval1"></li>
                 <li id="minval1"></li>
                 <li id="rangeval1"></li>
@@ -91,7 +137,7 @@
 
             <h6 id="cityname2"></h6>           
            
-            <ul class="no-bullets">
+            <ul id="list2" class="no-bullets">
                 <li id="maxval2"></li>
                 <li id="minval2"></li>
                 <li id="rangeval2"></li>
@@ -129,7 +175,25 @@
         });
 
     </script>
+
+
+
+
+
+
+    <div class="container-fluid bg-dark" align="center">
+        <!-- https://stackoverflow.com/questions/12448134/social-share-links-with-custom-icons/49542173#49542173 
+        Replace google.com with name of website
+        -->
+        <a href="http://www.facebook.com/share.php?u=www.google.com&title=[GOOGLE]" class="fa fa-facebook"></a>
+        <a href="https://twitter.com/intent/tweet?text=Hello%20world&url=www.google.com" class="fa fa-twitter"></a>
+        <a href="http://www.reddit.com/submit?url=www.google.com&title=[TITLE]" class="fa fa-reddit"></a>
+        <a href="http://www.linkedin.com/shareArticle?mini=true&url=www.google.com&title=[TITLE]&source=[SOURCE/DOMAIN]" class="fa fa-linkedin"></a> 
+    </div>
     
+   
+
+
 
 </body>
 </html>
